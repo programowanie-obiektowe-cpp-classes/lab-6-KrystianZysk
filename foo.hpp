@@ -2,15 +2,21 @@
 
 #include "Human.hpp"
 
-#include <algorithm>
 #include <list>
 #include <vector>
+#include <algorithm>
 
-std::vector< char > foo(std::list< Human >& people)
-{
-    std::vector< char > retval(people.size());
+std::vector<char> foo(std::list<Human>& people) {
+    std::for_each(people.begin(), people.end(), [](Human& person) {
+        person.birthday();
+    });
 
-    // Twoja implementacja tutaj
+    std::vector<char> v;
+    v.reserve(people.size());
 
-    return retval;
+    std::transform(people.rbegin(), people.rend(), std::back_inserter(v), [](const Human& person) {
+        return person.isMonster() ? 'n' : 'y';
+    });
+    
+    return v;
 }
